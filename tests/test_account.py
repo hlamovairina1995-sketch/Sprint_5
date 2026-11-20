@@ -1,6 +1,7 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from config import SITE_URL
 from locators import AccountLocators, HeaderLocators, HomeLocators, LoginLocators
 
 
@@ -22,7 +23,7 @@ class TestPersonalAccount:
 
         title = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(HomeLocators.TITLE))
         assert title.is_displayed()
-        assert driver.current_url == "https://stellarburgers.education-services.ru/"
+        assert driver.current_url == SITE_URL
 
     def test_return_to_constructor_by_logo(self, driver, register_and_login):
         driver.find_element(*HeaderLocators.ACCOUNT_LINK).click()
@@ -34,7 +35,7 @@ class TestPersonalAccount:
             EC.visibility_of_element_located(HomeLocators.TITLE)
         )
         assert title.is_displayed()
-        assert driver.current_url == "https://stellarburgers.education-services.ru/"
+        assert driver.current_url == SITE_URL
 
     def test_logout(self, driver, register_and_login):
         driver.find_element(*HeaderLocators.ACCOUNT_LINK).click()
@@ -42,5 +43,5 @@ class TestPersonalAccount:
         logout_button = WebDriverWait(driver, 20).until(EC.visibility_of_element_located(AccountLocators.LOGOUT_BUTTON))
         logout_button.click()
 
-        WebDriverWait(driver, 20).until(EC.url_to_be("https://stellarburgers.education-services.ru/login"))
+        WebDriverWait(driver, 20).until(EC.url_to_be(f"{SITE_URL}login"))
         assert driver.find_element(*LoginLocators.TITLE).is_displayed()

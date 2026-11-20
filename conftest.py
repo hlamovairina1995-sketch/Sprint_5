@@ -1,12 +1,11 @@
-import random
-import string
-
 import pytest
 
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from config import SITE_URL
+from helpers import generate_email, generate_password
 from locators import HomeLocators, LoginLocators, RegistrationLocators
 
 
@@ -21,31 +20,12 @@ def driver():
 
 
 @pytest.fixture
-def generate_email():
-    name = "irina"
-    surname = "khlamova"
-    cohort = "56"
-    random_numbers = random.randint(100, 999)
-    email = f"{name}{surname}{cohort}{random_numbers}@yandex.ru"
-    return email
-
-
-@pytest.fixture
-def generate_password():
-    def func(length=6):
-        characters = string.ascii_letters + string.digits
-        password = "".join(random.choices(characters, k=length))
-        return password
-    return func
-
-
-@pytest.fixture
-def register_user(driver, generate_email, generate_password):
-    email = generate_email
+def register_user(driver):
+    email = generate_email()
     password = generate_password()
     name = "Ирина"
 
-    driver.get("https://stellarburgers.education-services.ru/register")
+    driver.get(f"{SITE_URL}register")
 
     WebDriverWait(driver, 10).until(EC.visibility_of_element_located(RegistrationLocators.NAME_INPUT))
 
@@ -54,7 +34,7 @@ def register_user(driver, generate_email, generate_password):
     driver.find_element(*RegistrationLocators.PASSWORD_INPUT).send_keys(password)
     driver.find_element(*RegistrationLocators.SUBMIT_BUTTON).click()
 
-    WebDriverWait(driver, 20).until(EC.url_to_be("https://stellarburgers.education-services.ru/login"))
+    WebDriverWait(driver, 20).until(EC.url_to_be(f"{SITE_URL}login"))
 
     return email, password
 

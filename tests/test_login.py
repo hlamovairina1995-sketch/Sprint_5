@@ -1,6 +1,7 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from config import SITE_URL
 from locators import HeaderLocators, HomeLocators, LoginLocators, RecoveryLocators, RegistrationLocators
 
 
@@ -10,7 +11,7 @@ class TestLogin:
 
         email, password = register_user
 
-        driver.get("https://stellarburgers.education-services.ru/")
+        driver.get(SITE_URL)
         driver.find_element(*HomeLocators.LOGIN_BUTTON).click()
 
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(LoginLocators.TITLE))
@@ -26,7 +27,7 @@ class TestLogin:
 
         email, password = register_user
 
-        driver.get("https://stellarburgers.education-services.ru/")
+        driver.get(SITE_URL)
         driver.find_element(*HeaderLocators.ACCOUNT_LINK).click()
 
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(LoginLocators.TITLE))
@@ -42,7 +43,7 @@ class TestLogin:
 
         email, password = register_user
 
-        driver.get("https://stellarburgers.education-services.ru/register")
+        driver.get(f"{SITE_URL}register")
 
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(RegistrationLocators.TITLE))
         driver.find_element(*RegistrationLocators.LOGIN_LINK).click()
@@ -60,7 +61,7 @@ class TestLogin:
 
         email, password = register_user
 
-        driver.get("https://stellarburgers.education-services.ru/forgot-password")
+        driver.get(f"{SITE_URL}forgot-password")
 
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(RecoveryLocators.TITLE))
         driver.find_element(*RecoveryLocators.LOGIN_LINK).click()

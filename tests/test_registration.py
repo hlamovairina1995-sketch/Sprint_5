@@ -1,17 +1,19 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from config import SITE_URL
+from helpers import generate_email, generate_password
 from locators import LoginLocators, RegistrationLocators
 
 
 class TestRegistration:
 
-    def test_successful_registration(self, driver, generate_email, generate_password):
-        email = generate_email
+    def test_successful_registration(self, driver):
+        email = generate_email()
         password = generate_password(6)
         name = "Ирина"
 
-        driver.get("https://stellarburgers.education-services.ru/register")
+        driver.get(f"{SITE_URL}register")
 
         driver.find_element(*RegistrationLocators.NAME_INPUT).send_keys(name)
         driver.find_element(*RegistrationLocators.EMAIL_INPUT).send_keys(email)
@@ -21,16 +23,16 @@ class TestRegistration:
 
         driver.find_element(*RegistrationLocators.SUBMIT_BUTTON).click()
 
-        WebDriverWait(driver, 20).until(EC.url_to_be("https://stellarburgers.education-services.ru/login"))
+        WebDriverWait(driver, 20).until(EC.url_to_be(f"{SITE_URL}login"))
 
         assert driver.find_element(*LoginLocators.TITLE).is_displayed()
 
-    def test_registration_rejects_password_shorter_than_six(self, driver, generate_email, generate_password):
-        email = generate_email
+    def test_registration_rejects_password_shorter_than_six(self, driver):
+        email = generate_email()
         password = generate_password(5)
         name = "Ирина"
 
-        driver.get("https://stellarburgers.education-services.ru/register")
+        driver.get(f"{SITE_URL}register")
 
         driver.find_element(*RegistrationLocators.NAME_INPUT).send_keys(name)
         driver.find_element(*RegistrationLocators.EMAIL_INPUT).send_keys(email)

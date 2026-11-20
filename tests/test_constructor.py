@@ -1,13 +1,14 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from config import SITE_URL
 from locators import ConstructorLocators, HomeLocators
 
 
 class TestConstructor:
 
     def test_buns_tab(self, driver):
-        driver.get("https://stellarburgers.education-services.ru/")
+        driver.get(SITE_URL)
 
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(HomeLocators.TITLE))
 
@@ -18,7 +19,7 @@ class TestConstructor:
         assert active_tab.is_displayed()
 
     def test_sauces_tab(self, driver):
-        driver.get("https://stellarburgers.education-services.ru/")
+        driver.get(SITE_URL)
 
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(HomeLocators.TITLE))
 
@@ -28,7 +29,7 @@ class TestConstructor:
         assert active_tab.is_displayed()
 
     def test_fillings_tab(self, driver):
-        driver.get("https://stellarburgers.education-services.ru/")
+        driver.get(SITE_URL)
 
         WebDriverWait(driver, 10).until(EC.visibility_of_element_located(HomeLocators.TITLE))
 
